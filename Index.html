@@ -4,39 +4,72 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>PruebaWeb</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+          crossorigin="anonymous" />
     <style type="text/css">
+        .body {
+            padding: 15px;
+        }
+        #conIframeFS {
+            min-height: 29.6px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
-
-    <div>
-        <button id="btnFirmar">
+    <div class="body">
+        <!-- Button trigger modal -->
+        <button id="btnFirmarFS" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalFirmarFS">
             Firmar
         </button>
+        <!-- Modal -->
+        <div class="modal fade" id="modalFirmarFS" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalFirmarFS_Label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="modalFirmarFS_Label">Fractal Sign</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="conIframeFS"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="btnCerrarFS" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <br />
-
-    <div id="conIframeFS"></div>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous">
+    </script>
     <script type="text/javascript">
         const windowOrigin = 'http://localhost:5000';
-        const btnFirmar = document.getElementById('btnFirmar');
         const conIframeFS = document.getElementById('conIframeFS');
+        const btnCerrarFS = document.getElementById('btnCerrarFS');
         let iframeFS = null;
         let resSignDocument = {};
 
-        // iframeFS: Enviar mensaje
         window.onload = (event) => {
-            btnFirmar.addEventListener('click', () => {
-                btnFirmar.disabled = true;
+            document.getElementById('modalFirmarFS').addEventListener('shown.bs.modal', () => {
+                executeFractalSign();
+            });
+        };
+
+        function executeFractalSign() {
+            if (!iframeFS) {
+                btnCerrarFS.disabled = true;
                 // Iniciamos 'iframeFS':
                 iframeFS = document.createElement("iframe");
                 iframeFS.setAttribute("id", "iframeFS");
                 iframeFS.setAttribute("tittle", "FractalSign.WindowsService");
                 iframeFS.setAttribute("src", windowOrigin);
-                iframeFS.setAttribute("height", "200");
-                iframeFS.setAttribute("width", "400");
+                iframeFS.setAttribute("height", "24");
+                //iframeFS.setAttribute("width", "400");
                 conIframeFS.appendChild(iframeFS);
                 // Ejecutamos 'iframeFS':
                 const requestSignDocument = {
@@ -46,11 +79,12 @@
                     PathOut: 'C:/Users/gerardo.gomez/Desktop',
                     SerialNumber: '15068FC35990DF45FC'
                 };
+                // iframeFS: Enviar mensaje
                 iframeFS.onload = (event) => {
                     iframeFS.contentWindow.postMessage(requestSignDocument, iframeFS.src);
                 };
-            });
-        };
+            }
+        }
 
         // iframeFS: Recibir mensaje
         window.addEventListener('message', (event) => {
@@ -58,12 +92,14 @@
             // Importante: Por seguridad comprobamos el origen del evento.
             if (event.origin === windowOrigin) {
                 resSignDocument = event.data;
-                // Terminamos 'iframeFS':
-                setTimeout(() => {
-                    conIframeFS.removeChild(iframeFS);
-                    btnFirmar.disabled = false;
-                }, 5000);
+                btnCerrarFS.disabled = false;
             }
+        });
+
+        btnCerrarFS.addEventListener('click', () => {
+            // Terminamos 'iframeFS':
+            conIframeFS.removeChild(iframeFS);
+            iframeFS = null;
         });
     </script>
 </body>
