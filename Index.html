@@ -2,20 +2,69 @@
 
 <html>
 <head>
-	<meta name="viewport" content="width=device-width" />
-	<title>PruebaWeb</title>
-	<style type="text/css">
-	</style>
+    <meta name="viewport" content="width=device-width" />
+    <title>PruebaWeb</title>
+    <style type="text/css">
+    </style>
 </head>
 <body>
 
-	<iframe src="http://localhost:5000/"
-			title="iframe FractalSign.WindowsService"
-			width="400"
-			height="200">
-	</iframe>
+    <div>
+        <button id="btnFirmar">
+            Firmar
+        </button>
+    </div>
 
-	<script type="text/javascript">
-	</script>
+    <br />
+
+    <div id="conIframeFS"></div>
+
+    <script type="text/javascript">
+        const windowOrigin = 'http://localhost:5000';
+        const btnFirmar = document.getElementById('btnFirmar');
+        const conIframeFS = document.getElementById('conIframeFS');
+        let iframeFS = null;
+        let resSignDocument = {};
+
+        // iframeFS: Enviar mensaje
+        window.onload = (event) => {
+            btnFirmar.addEventListener('click', () => {
+                btnFirmar.disabled = true;
+                // Iniciamos 'iframeFS':
+                iframeFS = document.createElement("iframe");
+                iframeFS.setAttribute("id", "iframeFS");
+                iframeFS.setAttribute("tittle", "FractalSign.WindowsService");
+                iframeFS.setAttribute("src", windowOrigin);
+                iframeFS.setAttribute("height", "200");
+                iframeFS.setAttribute("width", "400");
+                conIframeFS.appendChild(iframeFS);
+                // Ejecutamos 'iframeFS':
+                const requestSignDocument = {
+                    PathDocumentsIn: [
+                        'C:/Users/gerardo.gomez/Downloads/FT-GTH-11 Solicitud de Vacaciones.pdf'
+                    ],
+                    PathOut: 'C:/Users/gerardo.gomez/Desktop',
+                    SerialNumber: '15068FC35990DF45FC'
+                };
+                iframeFS.onload = (event) => {
+                    iframeFS.contentWindow.postMessage(requestSignDocument, iframeFS.src);
+                };
+            });
+        };
+
+        // iframeFS: Recibir mensaje
+        window.addEventListener('message', (event) => {
+            console.log(event.origin);
+            // Importante: Por seguridad comprobamos el origen del evento.
+            if (event.origin === windowOrigin) {
+                resSignDocument = event.data;
+                // Terminamos 'iframeFS':
+                setTimeout(() => {
+                    conIframeFS.removeChild(iframeFS);
+                    btnFirmar.disabled = false;
+                }, 5000);
+            }
+        });
+    </script>
 </body>
 </html>
