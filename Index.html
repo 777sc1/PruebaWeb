@@ -89,7 +89,6 @@
 
         // iframeFS: Recibir mensaje
         window.addEventListener('message', (event) => {
-            console.log('event.origin: ' + event.origin);
             // Importante: Por seguridad comprobamos el origen del evento.
             if (event.origin === windowOrigin) {
                 resSignDocument = event.data;
