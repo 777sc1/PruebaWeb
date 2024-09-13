@@ -52,11 +52,11 @@
 
         window.onload = (event) => {
             document.getElementById('modalFirmarFS').addEventListener('shown.bs.modal', () => {
-                executeFractalSign();
+                executeFractalSignWS();
             });
         };
 
-        function executeFractalSign() {
+        function executeFractalSignWS() {
             if (!iframeFS) {
                 btnCerrarFS.disabled = true;
                 // Iniciamos 'iframeFS':
