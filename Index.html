@@ -12,10 +12,6 @@
         .body {
             padding: 15px;
         }
-        #conIframeFS {
-            min-height: 29.6px;
-            text-align: center;
-        }
     </style>
 </head>
 <body>
@@ -33,7 +29,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div id="conIframeFS"></div>
+                        <div id="divIframeFS"></div>
                     </div>
                     <div class="modal-footer">
                         <button id="btnCerrarFS" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -49,7 +45,7 @@
     </script>
     <script type="text/javascript">
         const windowOrigin = 'http://localhost:5000';
-        const conIframeFS = document.getElementById('conIframeFS');
+        const divIframeFS = document.getElementById('divIframeFS');
         const btnCerrarFS = document.getElementById('btnCerrarFS');
         let iframeFS = null;
         let resSignDocument = {};
@@ -68,13 +64,15 @@
                 iframeFS.setAttribute('id', 'iframeFS');
                 iframeFS.setAttribute('tittle', 'FractalSign.WindowsService');
                 iframeFS.setAttribute('src', windowOrigin);
-                iframeFS.setAttribute('height', '24');
-                //iframeFS.setAttribute('width', '400');
-                conIframeFS.appendChild(iframeFS);
+                iframeFS.setAttribute('height', '100%');
+                iframeFS.setAttribute('width', '100%');
+                divIframeFS.appendChild(iframeFS);
                 // Ejecutamos 'iframeFS':
-                const requestSignDocument = {
+                const requestSignDocumentWS = {
                     "BucketS3_In": "soporte-test",
                     "KeysS3_In": [
+                        "pdf/sample.pdf",
+                        "pdf/sample.pdf",
                         "pdf/sample.pdf"
                     ],
                     "BucketS3_Out": "soporte-test",
@@ -82,7 +80,7 @@
                 };
                 // iframeFS: Enviar mensaje
                 iframeFS.onload = (event) => {
-                    iframeFS.contentWindow.postMessage(requestSignDocument, iframeFS.src);
+                    iframeFS.contentWindow.postMessage(requestSignDocumentWS, iframeFS.src);
                 };
             }
         }
@@ -98,7 +96,7 @@
 
         btnCerrarFS.addEventListener('click', () => {
             // Terminamos 'iframeFS':
-            conIframeFS.removeChild(iframeFS);
+            divIframeFS.removeChild(iframeFS);
             iframeFS = null;
         });
     </script>
