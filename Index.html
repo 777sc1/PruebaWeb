@@ -12,6 +12,9 @@
         .body {
             padding: 15px;
         }
+        #divIframeFS {
+            min-height: 155.2px;
+        }
     </style>
 </head>
 <body>
@@ -44,7 +47,7 @@
             crossorigin="anonymous">
     </script>
     <script type="text/javascript">
-        const windowOrigin = 'http://localhost:5000';
+        const windowOrigin = ('http://localhost:13809/').replace(/\/$/, '');
         const divIframeFS = document.getElementById('divIframeFS');
         const btnCerrarFS = document.getElementById('btnCerrarFS');
         let iframeFS = null;
@@ -71,8 +74,6 @@
                 const requestSignDocumentWS = {
                     "BucketS3_In": "soporte-test",
                     "KeysS3_In": [
-                        "pdf/sample.pdf",
-                        "pdf/sample.pdf",
                         "pdf/sample.pdf"
                     ],
                     "BucketS3_Out": "soporte-test",
