@@ -47,7 +47,7 @@
             crossorigin="anonymous">
     </script>
     <script type="text/javascript">
-        const windowOrigin = ('http://localhost:5000/').replace(/\/$/, '');
+        const windowOrigin = ('http://localhost:5139/').replace(/\/$/, '');
         const divIframeFS = document.getElementById('divIframeFS');
         const btnCerrarFS = document.getElementById('btnCerrarFS');
         let iframeFS = null;
@@ -72,12 +72,12 @@
                 divIframeFS.appendChild(iframeFS);
                 // Ejecutamos 'iframeFS':
                 const requestSignDocumentWS = {
-                    "BucketS3_In": "soporte-test",
-                    "KeysS3_In": [
-                        "pdf/sample.pdf"
-                    ],
-                    "BucketS3_Out": "soporte-test",
-                    "SerialNumber": "15068FC35990DF45FC"
+					"UrlWSS": "wss://docusign.spiralia-team.com",
+                    "AuthorizationWSS": "1234",
+					"SerialNumber": "2024100001",
+                    "LstPdfS3": [
+						{ "Secuencial": 1, "BucketS3": "soporte-test", "RutaBoletaS3": "pdf/sample2.pdf" }
+					]
                 };
                 // iframeFS: Enviar mensaje
                 iframeFS.onload = (event) => {
