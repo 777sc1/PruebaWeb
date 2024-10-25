@@ -12,6 +12,7 @@
         .body {
             padding: 15px;
         }
+
         #divIframeFS {
             min-height: 155.2px;
         }
@@ -44,8 +45,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-            crossorigin="anonymous">
-    </script>
+            crossorigin="anonymous"></script>
     <script type="text/javascript">
         const windowOrigin = ('http://localhost:5139/').replace(/\/$/, '');
         const divIframeFS = document.getElementById('divIframeFS');
@@ -72,12 +72,12 @@
                 divIframeFS.appendChild(iframeFS);
                 // Ejecutamos 'iframeFS':
                 const requestSignDocumentWS = {
-					"UrlWSS": "wss://docusign.spiralia-team.com",
+                    "UrlWSS": "wss://docusign.spiralia-team.com",
                     "AuthorizationWSS": "1234",
-					"SerialNumber": "2024100001",
+                    "SerialNumber": "2024100001",
                     "LstPdfS3": [
-						{ "Secuencial": 1, "BucketS3": "soporte-test", "RutaBoletaS3": "pdf/sample2.pdf" }
-					]
+                        { "Secuencial": 1, "BucketS3": "soporte-test", "RutaBoletaS3": "pdf/sample2.pdf" }
+                    ]
                 };
                 // iframeFS: Enviar mensaje
                 iframeFS.onload = (event) => {
